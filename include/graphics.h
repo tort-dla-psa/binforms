@@ -143,6 +143,13 @@ public:
 			const sptr<bit_image> &img);
 	void draw_image(const dot &dt1, const sptr<bit_image> &img);
 
+	void draw_image(const unsigned int x1,const unsigned int y1,
+			bit_image* src, bit_image* dst);
+	void draw_image(const dot &dt1, bit_image* src, bit_image* dst);
+	void draw_image(const unsigned int x1,const unsigned int y1,
+			const sptr<bit_image> &src, sptr<bit_image> &dst);
+	void draw_image(const dot &dt1, const sptr<bit_image> &src, sptr<bit_image> &dst);
+
 	void fill_image(const bool color);
 	void fill_image(const bool color,bit_image* img);
 	void fill_image(const bool color,sptr<bit_image> &img);

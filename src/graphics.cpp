@@ -291,20 +291,8 @@ void drawer::draw_ellipse(const dot &dt1,const dot &dt2,
 
 void drawer::draw_image(const unsigned int x1,const unsigned int y1,
 		bit_image* img)
-{
-	std::vector<bool> src = img->get_pixels();
-	const unsigned int srcw = img->get_w(),
-			srch = img->get_h();
-	std::vector<bool> dst = this->img->get_pixels();
-	const unsigned int dstw = this->img->get_w();
-	const unsigned int dst_start = x1 + y1*dstw;
-	for(unsigned int i=0; i<srch; i++){
-		std::copy(src.begin()+i*srcw,
-				  src.begin()+(i+1)*srcw,
-				  dst.begin()+dst_start+i*dstw);
-	}
-	this->img->set_pixels(dst);
-}
+{ draw_image(x1, y1, img, this->img.get()); }
+
 void drawer::draw_image(const unsigned int x1,const unsigned int y1,
 		const sptr<bit_image> &img)
 { draw_image(x1,y1,img.get()); }
@@ -315,6 +303,32 @@ void drawer::draw_image(const dot &dt1, bit_image* img)
 void drawer::draw_image(const dot &dt1,const sptr<bit_image> &img)
 { draw_image(dt1.x,dt1.y,img.get()); }
 
+void drawer::draw_image(const unsigned int x1,const unsigned int y1,
+		bit_image* src, bit_image* dst)
+{
+	std::vector<bool> src_bits = img->get_pixels();
+	const unsigned int srcw = img->get_w(),
+			srch = img->get_h();
+	std::vector<bool> dst_bits = dst->get_pixels();
+	const unsigned int dstw = this->img->get_w();
+	const unsigned int dst_start = x1 + y1*dstw;
+	for(unsigned int i=0; i<srch; i++){
+		std::copy(src_bits.begin()+i*srcw,
+				  src_bits.begin()+(i+1)*srcw,
+				  dst_bits.begin()+dst_start+i*dstw);
+	}
+	dst->set_pixels(dst_bits);
+}
+
+void drawer::draw_image(const dot &dt1, bit_image* src, bit_image* dst)
+{ draw_image(dt1.x, dt1.y, src, dst); }
+
+void drawer::draw_image(const unsigned int x1,const unsigned int y1,
+		const sptr<bit_image> &src, sptr<bit_image> &dst)
+{ draw_image(x1, y1, src.get(), dst.get()); }
+
+void drawer::draw_image(const dot &dt1, const sptr<bit_image> &src, sptr<bit_image> &dst)
+{ draw_image(dt1.x, dt1.y, src.get(), dst.get()); }
 
 void drawer::fill_image(const bool color)
 { fill_image(color, img.get()); }
