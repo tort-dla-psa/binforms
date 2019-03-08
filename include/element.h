@@ -1,6 +1,7 @@
 #ifndef ELEMENT_H
 #define ELEMENT_H
 #include "aliases.h"
+#include "event.h"
 
 class bit_image;
 class element{
@@ -23,15 +24,15 @@ public:
 	virtual unsigned int get_x()const;
 	virtual unsigned int get_y()const;
 
-	virtual void press_e(){}
-	virtual void tap_e(){}
-	virtual void release_e(){}
-	virtual void focus_enter_e(){}
-	virtual void focus_leave_e(){}
-	virtual void swipe_left_e(){}
-	virtual void swipe_right_e(){}
-	virtual void swipe_up_e(){}
-	virtual void swipe_down_e(){}
+	virtual void on_press_e(sptr<event> e){}
+	virtual void on_tap_e(sptr<event> e){}
+	virtual void on_release_e(sptr<event> e){}
+	virtual void on_focus_enter_e(sptr<event> e){}
+	virtual void on_focus_leave_e(sptr<event> e){}
+	virtual void on_swipe_left_e(sptr<event> e){}
+	virtual void on_swipe_right_e(sptr<event> e){}
+	virtual void on_swipe_up_e(sptr<event> e){}
+	virtual void on_swipe_down_e(sptr<event> e){}
 };
 
 #endif // ELEMENT_H
