@@ -6,7 +6,7 @@
 #include "iholding.h"
 
 class binform:public element,
-		public iholding_multiple
+	public iholding_multiple
 {
 	vec_s<element> elements;
 public:
@@ -15,12 +15,18 @@ public:
 	unsigned int get_h()const;
 	bool get_changed()const override;
 	void update()override;
-	virtual vec_s<element> get_elements()const;
+	virtual vec_s<element> get_elements()const override;
+	virtual vec_s<element> get_elements(const int x, const int y)const;
 	virtual sptr<element> get_element(const unsigned int place)const override;
+	virtual sptr<element> get_element(const int x, const int y)const;
 	virtual void set_elements(const vec_s<element> &elements)override;
 	virtual void set_element(const unsigned int place,
 				const sptr<element> &el)override;
 	virtual void add_element(const sptr<element> &el)override;
+
+	virtual void on_key_press_e(sptr<event> e){}
+	virtual void on_key_tap_e(sptr<event> e){}
+	virtual void on_key_release_e(sptr<event> e){}
 };
 
 #endif // BINFORM_H
