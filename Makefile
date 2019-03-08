@@ -6,6 +6,9 @@ extra =
 cxx := g++
 cxxflags := -ffast-math $(extra)
 
+
+.DEFAULT_GOAL = all
+
 prepare:
 	mkdir -p $(blddir)
 	mkdir -p $(libdir)
