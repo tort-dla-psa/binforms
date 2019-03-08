@@ -10,6 +10,8 @@ struct dot{
 class drawer{
 	sptr<bit_image> img;
 	bool color;
+	void check_ptr(bit_image* img);
+	void check_ptr(sptr<bit_image> img);
 public:
 	drawer();
 	drawer(const sptr<bit_image> &img);

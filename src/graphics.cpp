@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdexcept>
 #include "graphics.h"
 
 
@@ -8,6 +9,18 @@ drawer::drawer():drawer(nullptr){}
 drawer::drawer(const sptr<bit_image> &img)
 	:img(img),color(true)
 {}
+
+void drawer::check_ptr(bit_image* img){
+	if(!img){
+		throw std::runtime_error("drawer: image pointer isn't set");
+	}
+}
+
+void drawer::check_ptr(sptr<bit_image> img){
+	if(!img){
+		throw std::runtime_error("drawer: image pointer isn't set");
+	}
+}
 
 void drawer::set_image(const sptr<bit_image> &img){
 	this->img = img;
@@ -291,7 +304,11 @@ void drawer::draw_ellipse(const dot &dt1,const dot &dt2,
 
 void drawer::draw_image(const unsigned int x1,const unsigned int y1,
 		bit_image* img)
-{ draw_image(x1, y1, img, this->img.get()); }
+{ 
+	check_ptr(img);
+	check_ptr(this->img);
+	draw_image(x1, y1, img, this->img.get());
+}
 
 void drawer::draw_image(const unsigned int x1,const unsigned int y1,
 		const sptr<bit_image> &img)
@@ -306,16 +323,26 @@ void drawer::draw_image(const dot &dt1,const sptr<bit_image> &img)
 void drawer::draw_image(const unsigned int x1,const unsigned int y1,
 		bit_image* src, bit_image* dst)
 {
-	std::vector<bool> src_bits = img->get_pixels();
-	const unsigned int srcw = img->get_w(),
-			srch = img->get_h();
+	check_ptr(src);
+	check_ptr(dst);
+
+	std::vector<bool> src_bits = src->get_pixels();
+	unsigned int srcw = src->get_w(),
+			srch = src->get_h();
 	std::vector<bool> dst_bits = dst->get_pixels();
-	const unsigned int dstw = this->img->get_w();
+	const unsigned int dstw = dst->get_w();
+	const unsigned int dsth = dst->get_h();
+	if(x1+srcw >= dstw||
+		y1+srch >= dsth)
+	{
+		srcw = dstw-1;
+		srch = dsth-1;
+	}
 	const unsigned int dst_start = x1 + y1*dstw;
 	for(unsigned int i=0; i<srch; i++){
-		std::copy(src_bits.begin()+i*srcw,
-				  src_bits.begin()+(i+1)*srcw,
-				  dst_bits.begin()+dst_start+i*dstw);
+		std::copy(src_bits.begin() + i*srcw,
+				  src_bits.begin() + (i + 1)*srcw,
+				  dst_bits.begin() + dst_start + i*dstw);
 	}
 	dst->set_pixels(dst_bits);
 }
