@@ -8,21 +8,19 @@ class element{
 private:
 	bool changed;
 protected:
-	unsigned int x,y;
+	int x, y;
 	sptr<bit_image> img;
 public:
-	element(const unsigned int w,
-		const unsigned int h);
+	element(const unsigned int w, const unsigned int h);
 	virtual ~element();
 	unsigned int get_w()const;
 	unsigned int get_h()const;
 	void set_changed(const bool status);
 	virtual bool get_changed()const;
 	virtual void update()=0;
-	sptr<bit_image> get_image()const;
-	virtual void move(const unsigned int x, const unsigned int y);
-	virtual unsigned int get_x()const;
-	virtual unsigned int get_y()const;
+	sptr<bit_image> get_image();
+	virtual int get_x();
+	virtual int get_y();
 
 	virtual void on_press_e(sptr<event> e){}
 	virtual void on_tap_e(sptr<event> e){}

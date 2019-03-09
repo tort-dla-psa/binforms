@@ -14,8 +14,7 @@ public:
 	label(const char *text);
 	void set_text(const std::string &text);
 	std::string get_text()const;
-	void move(const unsigned int x,
-		  const unsigned int y)override;
+	void move(int x, int y)override;
 	void update()override;
 };
 

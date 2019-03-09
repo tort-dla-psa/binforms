@@ -22,15 +22,14 @@ bool binform::get_changed()const{
 }
 
 void binform::update(){
-	graphics::drawer dr(img);
+	graphics::drawer dr;
 	for(auto &el:elements){
 		if(el->get_changed()){
 			el->update();
 			const int el_x = el->get_x(),
 				el_y = el->get_y();
 			const sptr<bit_image> el_img = el->get_image();
-
-			dr.draw_image(el_x,el_y,el_img);
+			dr.draw_image(el_x, el_y, el_img, this->img);
 			el->set_changed(false);
 		}
 	}

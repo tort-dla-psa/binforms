@@ -37,10 +37,8 @@ public:
 	virtual void set_label(const sptr<label> &lbl);
 	sptr<label> get_label()const;
 
-	virtual void move(const unsigned int x,
-					  const unsigned int y)override;
-	virtual void resize(const unsigned int w,
-						const unsigned int h)override;
+	virtual void move(int x, int y)override;
+	virtual void resize(const unsigned int w, const unsigned int h)override;
 
 	virtual void update()override;
 };

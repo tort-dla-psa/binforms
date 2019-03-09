@@ -2,13 +2,15 @@
 #define STACK_H
 #include "element.h"
 #include "iholding.h"
+#include "imovable.h"
 #include "graphics.h"
 #include "aliases.h"
 
 using namespace graphics;
 
 class stack:public element,
-		public iholding_multiple
+	public imovable,
+	public iholding_multiple
 {
 protected:
 	uptr<drawer> drwr;
@@ -28,6 +30,7 @@ public:
 	virtual void set_elements(const vec_s<element> &elements)override =0;
 	virtual void set_element(const unsigned int place,
 			const sptr<element> &el)override =0;
+	void move(int x, int y)override;
 };
 
 class v_stack:public stack{

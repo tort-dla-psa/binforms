@@ -29,9 +29,7 @@ std::string label::get_text()const{
 	return text;
 }
 
-void label::move(const unsigned int x,
-				 const unsigned int y)
-{
+void label::move(int x, int y){
 	this->x = x;
 	this->y = y;
 	set_changed(true);

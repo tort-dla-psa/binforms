@@ -2,9 +2,9 @@
 #define IMOVABLE_H
 
 class imovable{
+protected:
 public:
-	virtual void move(const unsigned int x,
-					  const unsigned int y)=0;
+	virtual void move(int x, int y)=0;
 };
 
 #endif // IMOVABLE_H

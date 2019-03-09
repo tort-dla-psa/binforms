@@ -4,7 +4,7 @@ stack::stack()
 	:element(0,0),
 	iholding_multiple()
 {
-	drwr = uptr<drawer>(new drawer(this->img));
+	drwr = uptr<drawer>(new drawer());
 }
 
 stack::~stack(){}
@@ -37,15 +37,21 @@ vec_s<element> stack::get_elements()const{
 sptr<element> stack::get_element(const unsigned int place)const{
 	return elements[place];
 }
-
+void stack::move(int x, int y){
+	this->x = x;
+	this->y = y;
+	set_changed(true);
+}
 
 
 v_stack::v_stack():stack(){}
 
 void v_stack::align_items(){
-	unsigned int prev_h=0;
+	unsigned int prev_h = 0;
 	for(auto &el: elements){
-		el->move(0, prev_h);
+		sptr<imovable> cast = std::dynamic_pointer_cast<imovable>(el);
+		if(cast)
+			cast->move(0, prev_h);
 		prev_h += el->get_h();
 	}
 	set_changed(true);
@@ -56,7 +62,7 @@ void v_stack::set_elements(const vec_s<element> &elements){
 	update_size();
 }
 void v_stack::set_element(const unsigned int place,
-			const sptr<element> &el)
+		const sptr<element> &el)
 {
 	this->elements[place] = el;
 	align_items();
@@ -78,13 +84,13 @@ void v_stack::update_size(){
 	set_changed(true);
 }
 void v_stack::update(){
+	unsigned int prev_h = 0;
 	for(auto &el:elements){
 		if(el->get_changed()){
-			drwr->draw_image(el->get_x(),
-					el->get_y(),
-					el->get_image());
+			drwr->draw_image(0, prev_h, el->get_image(), this->img);
 			el->set_changed(false);
 		}
+		prev_h += el->get_h();
 	}
 	set_changed(true);
 }
@@ -92,9 +98,11 @@ void v_stack::update(){
 
 h_stack::h_stack():stack(){}
 void h_stack::align_items(){
-	unsigned int prev_w=0;
+	unsigned int prev_w = 0;
 	for(auto &el: elements){
-		el->move(prev_w, 0);
+		sptr<imovable> cast = std::dynamic_pointer_cast<imovable>(el);
+		if(cast)
+			cast->move(prev_w, 0);
 		prev_w += el->get_w();
 	}
 	set_changed(true);
@@ -127,13 +135,13 @@ void h_stack::update_size(){
 	set_changed(true);
 }
 void h_stack::update(){
+	unsigned int prev_w = 0;
 	for(auto &el:elements){
 		if(el->get_changed()){
-			drwr->draw_image(el->get_x(),
-					el->get_y(),
-					el->get_image());
+			drwr->draw_image(prev_w, 0, el->get_image(), this->img);
 			el->set_changed(false);
 		}
+		prev_w += el->get_w();
 	}
 	set_changed(true);
 }
