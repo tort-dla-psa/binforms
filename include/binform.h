@@ -8,6 +8,7 @@
 class binform:public element,
 	public iholding_multiple
 {
+protected:
 	vec_s<element> elements;
 public:
 	binform(const unsigned int w, const unsigned int h);

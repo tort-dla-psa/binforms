@@ -17,7 +17,12 @@ public:
 	virtual void resize(const unsigned int w,const unsigned int h)=0;
 };
 
+namespace graphics{
+	class drawer;
+}
 class bit_image:public image{
+protected:
+	friend class graphics::drawer;
 	std::vector<bool> img;
 public:
 	bit_image(const unsigned int w,const unsigned int h);

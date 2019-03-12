@@ -32,9 +32,9 @@ void drawer::draw_line(int x1, int y1, int x2, int y2, sptr<bit_image> img){
 void drawer::draw_line(int x1, int y1, int x2, int y2, bool color, bit_image* img){
 	check_ptr(img);
 
+	int w = img->get_w();
+	int h = img->get_h();
 	{
-		int w = img->get_w();
-		int h = img->get_h();
 		if (x1 >= w || x2 >= w ||
 			y1 >= h || y2 >= h)
 		{
@@ -49,7 +49,7 @@ void drawer::draw_line(int x1, int y1, int x2, int y2, bool color, bit_image* im
 
 	int err = (dx > dy ? dx : -dy) / 2, e2;
 	for (;;) {
-		img->set_pixel(x1, y1, color);
+		img->img[x1 +  y1*w] = color;
 		if (x1 == x2 && y1 == y2) break;
 		e2 = err;
 		if (e2 > -dx) { err -= dy; x1 += sx; }
@@ -100,16 +100,14 @@ void drawer::draw_rect(int x1, int y1, int x2, int y2, bool color, bit_image* im
 		std::swap(y1, y2);
 	}
 	int rect_w = x2-x1+1;
-	std::vector<bool> raw_img = img->get_pixels();
-	std::fill_n(raw_img.begin()+x1+y1*w,rect_w, color);
-	std::fill_n(raw_img.begin()+x1+y2*w,rect_w, color);
+	std::fill_n(img->img.begin() + x1 + y1*w, rect_w, color);
+	std::fill_n(img->img.begin() + x1 + y2*w, rect_w, color);
 	int start = y1+1,
 			end = y2;
 	for(int y=start; y<end; y++){
-		raw_img[x1+y*(rect_w)] = color;
-		raw_img[x2+y*(rect_w)] = color;
+		img->img[x1 + y*rect_w] = color;
+		img->img[x2 + y*rect_w] = color;
 	}
-	img->set_pixels(raw_img);
 }
 
 void drawer::draw_rect(int x1, int y1, int x2, int y2, bool color, sptr<bit_image> img){
@@ -155,11 +153,9 @@ void drawer::draw_rect_filled(int x1, int y1, int x2, int y2, bool color, bit_im
 		std::swap(y1, y2);
 	}
 	int rect_w = x2-x1;
-	std::vector<bool> raw_img = img->get_pixels();
 	for(int y=y1; y<y2; y++){
-		std::fill_n(raw_img.begin()+x1+y*w,rect_w, color);
+		std::fill_n(img->img.begin() + x1 + y*w, rect_w, color);
 	}
-	img->set_pixels(raw_img);
 }
 
 void drawer::draw_rect_filled(int x1, int y1, int x2, int y2,
@@ -227,38 +223,41 @@ void drawer::draw_image(int x1, int y1, bit_image* src, bit_image* dst){
 	check_ptr(dst);
 
 	int srcw = src->get_w(),
-		srch = src->get_h();
+		srch = src->get_h(),
+		src_start = 0;
+	const int orig_srcw = srcw,
+	      orig_srch = srch;
+
 	if(x1 + srcw < 0||
 		y1 + srch <0)
 	{
 		return;
 	}
-	if(x1 < 0){
-		srcw += x1;
-		x1 = 0;
-	}
 	if(y1 < 0){
+		src_start = -1 * y1 * srcw;
 		srch += y1;
 		y1 = 0;
 	}
-	std::vector<bool> src_bits = src->get_pixels();
-	std::vector<bool> dst_bits = dst->get_pixels();
+	if(x1 < 0){
+		src_start = src_start - x1;
+		srcw += x1;
+		x1 = 0;
+	}
 	int dstw = dst->get_w();
 	int dsth = dst->get_h();
-	if(x1 + srcw >= dstw||
-		y1 + srch >= dsth)
-	{
-		srcw = dstw-1-x1;
-		srch = dsth-1-y1;
+	if(x1 + srcw > dstw){
+		srcw = dstw-x1;
 	}
-	int dst_start = x1 + y1*dstw;
+	if(y1 + srch > dsth){
+		srch = dsth-y1;
+	}
 
+	int dst_start = x1 + y1*dstw;
 	for(int i=0; i<srch; i++){
-		std::copy(src_bits.begin() + i*srcw,
-				  src_bits.begin() + (i + 1)*srcw,
-				  dst_bits.begin() + dst_start + i*dstw);
+		std::copy(src->img.begin() + src_start + i*orig_srcw,
+				  src->img.begin() + src_start + i * orig_srcw + srcw,
+				  dst->img.begin() + dst_start + i*dstw);
 	}
-	dst->set_pixels(dst_bits);
 }
 
 void drawer::draw_image(dot dt1, bit_image* src, bit_image* dst){
@@ -279,9 +278,7 @@ void drawer::draw_image(dot dt1, sptr<bit_image> src, sptr<bit_image> dst){
 
 void drawer::fill_image(bool color, bit_image* img){
 	check_ptr(img);
-	std::vector<bool> src = img->get_pixels();
-	std::fill_n(src.begin(), src.size(), color);
-	img->set_pixels(src);
+	std::fill(img->img.begin(), img->img.end(), color);
 }
 
 void drawer::fill_image(bool color, sptr<bit_image> img){
