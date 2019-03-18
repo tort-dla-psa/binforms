@@ -33,7 +33,6 @@ void imagebox::update(){
 	sptr<bit_image> casted = std::static_pointer_cast<bit_image>(inner_img);
 	if(casted)
 		drwr->draw_image(0, 0, casted, this->img);
-	set_changed(true);
 }
 
 void imagebox::move(int x, int y){
