@@ -10,17 +10,17 @@ cxxflags := -ffast-math $(extra)
 .DEFAULT_GOAL = all
 
 prepare:
-	mkdir -p $(blddir)
-	mkdir -p $(libdir)
+	@mkdir -p $(blddir) $(libdir)
 clean:
-	rm -rf $(blddir) $(libdir)
+	@rm -rf $(blddir) $(libdir)
 
 binforms_trg := $(libdir)/binforms.so
 binforms_src := $(wildcard  src/*.cpp)
 binforms_hdr := $(incdir)/*.h
 
 $(binforms_trg): $(binforms_src) $(binforms_hdr)
-	$(cxx) $(cxxflags) $(binforms_src) -I $(incdir) -o $(binforms_trg) --shared -fPIC
+	@echo "compile $< $@"
+	@$(cxx) $(cxxflags) $(binforms_src) -I $(incdir) -o $(binforms_trg) --shared -fPIC
 
 all: prepare \
 	$(binforms_trg)
