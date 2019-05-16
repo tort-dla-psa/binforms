@@ -38,7 +38,7 @@ button::~button(){};
 void button::set_label(const std::string &text){
 	lbl = std::make_shared<label>(text);
 	resize(img->get_w(),img->get_h());
-	set_changed(true);
+	//set_changed(true);
 }
 void button::set_label(const sptr<label> &lbl){
 	set_label(lbl->get_text());
@@ -47,7 +47,7 @@ void button::set_label(const sptr<label> &lbl){
 void button::move(int x, int y) {
 	this->x = x;
 	this->y = y;
-	set_changed(true);
+	//set_changed(true);
 }
 void button::resize(const unsigned int w, const unsigned int h) {
 	img = std::make_shared<bit_image>(w,h);
@@ -58,7 +58,7 @@ void button::resize(const unsigned int w, const unsigned int h) {
 	const int x = (text_w < w)? (w - text_w)/2 : 0,
 			y = (text_h < h)? (h - text_h)/2 :0;
 	lbl->move(x,y);
-	set_changed(true);
+	//set_changed(true);
 }
 
 void button::update(){

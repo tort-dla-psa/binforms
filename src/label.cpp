@@ -22,7 +22,7 @@ label::label(const char *text)
 
 void label::set_text(const std::string &text){
 	this->text = text;
-	set_changed(true);
+	//set_changed(true);
 }
 
 std::string label::get_text()const{
@@ -32,7 +32,7 @@ std::string label::get_text()const{
 void label::move(int x, int y){
 	this->x = x;
 	this->y = y;
-	set_changed(true);
+	//set_changed(true);
 }
 
 void label::update(){

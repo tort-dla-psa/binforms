@@ -6,87 +6,67 @@ binform::binform(const unsigned int w, const unsigned int h)
 	:element (w,h)
 {}
 
-unsigned int binform::get_w()const{
-	return img->get_w();
-}
-unsigned int binform::get_h()const{
-	return img->get_h();
-}
-
+/*
 bool binform::get_changed()const{
-	bool updated = false;
-	for(const auto &el:elements){
-		updated |= el->get_changed();
+	for(const auto &l:layers){
+		if(l->get_changed()){
+			return true;
+		}
 	}
-	return updated;
+	return false;
+}*/
+
+void binform::add_layer(const sptr<layer> &l){
+	layers.emplace_back(l);
 }
 
 void binform::update(){
 	graphics::drawer dr;
-	for(auto &el:elements){
-		if(el->get_changed()){
-			el->update();
-			const int el_x = el->get_x(),
-				el_y = el->get_y();
-			const sptr<bit_image> el_img = el->get_image();
-			dr.draw_image(el_x, el_y, el_img, this->img);
-			el->set_changed(false);
-		}
+	for(auto &l:layers){
+		//if(l->get_changed()){
+		l->update();
+		const sptr<bit_image> l_img = l->get_image();
+		dr.draw_image(0, 0, l_img, this->img);
+		//el->set_changed(false);
+		//}
 	}
 }
 
-vec_s<element> binform::get_elements()const{
-	return this->elements;
+vec_s<layer> binform::get_layers()const{
+	return this->layers;
 }
+
+sptr<element> binform::get_layer(const uint place)const{
+	return layers[place];
+}
+
+vec_s<element> binform::get_elements()const{
+	vec_s<element> elements;
+	for(const auto &l:layers){
+		const auto elems = l->get_elements();
+		elements.reserve(elements.size() + elems.size());
+		for(const auto &el:elems){
+			elements.emplace_back(el);
+		}
+	}
+	return elements;
+}
+
 vec_s<element> binform::get_elements(const int x, const int y)const{
 	vec_s<element> temp;
-	for(const sptr<element> &el:elements){
-		const int el_x = el->get_x();
-		const int el_y = el->get_y();
-		const int el_h = el->get_h();
-		const int el_w = el->get_w();
-		if(x >= el_x &&
-			y >= el_y &&
-			x <= el_x+el_w &&
-			y <= el_y+el_h)
-		{
+	for(const auto &l:layers){
+		const auto el = l->get_element(x,y);
+		if(el){
 			temp.emplace_back(el);
 		}
 	}
 	return temp;
 }
 
-sptr<element> binform::get_element(const unsigned int place)const{
-	return elements[place];
-}
 sptr<element> binform::get_element(const int x, const int y)const{
-	for(const sptr<element> &el:elements){
-		const int el_x = el->get_x();
-		const int el_y = el->get_y();
-		const int el_h = el->get_h();
-		const int el_w = el->get_w();
-		if(x >= el_x &&
-			y >= el_y &&
-			x <= el_x+el_w &&
-			y <= el_y+el_h)
-		{
-			return el;
-		}
-	}
-	return nullptr;
+	return layers[0]->get_element(x,y);
 }
 
-void binform::set_elements(const vec_s<element> &elements){
-	this->elements = elements;
-	set_changed(true);
-}
-
-void binform::set_element(const unsigned int place, const sptr<element> &el){
-	this->elements[place] = el;
-	set_changed(true);
-}
-
-void binform::add_element(const sptr<element> &el){
-	this->elements.emplace_back(el);
-	set_changed(true);
+void binform::add_element(const sptr<element> &el, const uint layer){
+	layers[layer]->add_element(el);
 }

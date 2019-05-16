@@ -3,7 +3,10 @@
 #include "aliases.h"
 #include "event.h"
 
+using uint = unsigned int;
+
 class bit_image;
+
 class element{
 private:
 	bool changed;
@@ -11,12 +14,12 @@ protected:
 	int x, y;
 	sptr<bit_image> img;
 public:
-	element(const unsigned int w, const unsigned int h);
+	element(const uint w, const uint h);
 	virtual ~element();
-	unsigned int get_w()const;
-	unsigned int get_h()const;
-	void set_changed(const bool status);
-	virtual bool get_changed()const;
+	uint get_w()const;
+	uint get_h()const;
+	//void set_changed(const bool status);
+	//virtual bool get_changed()const;
 	virtual void update()=0;
 	sptr<bit_image> get_image();
 	virtual int get_x();

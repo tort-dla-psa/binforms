@@ -15,7 +15,7 @@ prepare:
 clean:
 	rm -rf $(blddir) $(libdir)
 
-binforms_trg := $(libdir)/binforms.so
+binforms_trg := $(libdir)/libbinforms.so
 binforms_src := $(wildcard  src/*.cpp)
 binforms_hdr := $(incdir)/*.h
 

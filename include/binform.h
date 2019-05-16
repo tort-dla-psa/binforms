@@ -1,33 +1,35 @@
-#ifndef BINFORM_H
-#define BINFORM_H
+#pragma once
 
+#include "layer.h"
 #include "aliases.h"
 #include "element.h"
 #include "iholding.h"
 
-class binform:public element,
-	public iholding_multiple
-{
+using uint = unsigned int;
+
+class binform:public element{
 protected:
-	vec_s<element> elements;
+	vec_s<layer> layers;
 public:
-	binform(const unsigned int w, const unsigned int h);
-	unsigned int get_w()const;
-	unsigned int get_h()const;
-	bool get_changed()const override;
+	binform(const uint w, const uint h);
+	//bool get_changed()const override;
 	void update()override;
-	virtual vec_s<element> get_elements()const override;
+	//add new layer
+	void add_layer(const sptr<layer> &l);
+	//return all layers
+	virtual vec_s<layer> get_layers()const;
+	//return desired layer
+	virtual sptr<element> get_layer(const uint place)const;
+	//return all elements
+	virtual vec_s<element> get_elements()const;
+	//return all elements at coodrdinates
 	virtual vec_s<element> get_elements(const int x, const int y)const;
-	virtual sptr<element> get_element(const unsigned int place)const override;
+	//return upper element at coodrdinates
 	virtual sptr<element> get_element(const int x, const int y)const;
-	virtual void set_elements(const vec_s<element> &elements)override;
-	virtual void set_element(const unsigned int place,
-				const sptr<element> &el)override;
-	virtual void add_element(const sptr<element> &el)override;
+	//add element to layer
+	virtual void add_element(const sptr<element> &el, const uint layer);
 
 	virtual void on_key_press_e(sptr<event> e){}
 	virtual void on_key_tap_e(sptr<event> e){}
 	virtual void on_key_release_e(sptr<event> e){}
 };
-
-#endif // BINFORM_H

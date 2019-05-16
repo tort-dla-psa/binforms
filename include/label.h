@@ -4,9 +4,7 @@
 #include "element.h"
 #include "imovable.h"
 
-class label: public element,
-	public imovable
-{
+class label: public element, public imovable {
 	std::string text;
 public:
 	label();
