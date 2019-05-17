@@ -1,16 +1,25 @@
-#ifndef BINFONT_H
-#define BINFONT_H
+#pragma once
+
 #include <string.h>
 #include <string>
 #include <algorithm>
 #include <cmath>
+#include <memory>
+#include <vector>
+#include <istream>
 #include "image.h"
 
+using uint = unsigned int;
+template<typename T>
+using sptr = std::shared_ptr<T>;
+
 namespace binfont {
+
 const int char_width = 6,
-char_height = 8,
-char_size = char_width*char_height,
-table_size = 96;
+	char_height = 8,
+	char_size = char_width * char_height,
+	table_size = 96;
+
 static const bool image_table[table_size][char_size] = {
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},//
 	{0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0},//!
@@ -208,7 +217,30 @@ static const char raw_table[table_size][char_width] = {
 	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 };
 
-inline unsigned int get_char_width(const std::string &text){
+inline int get_code(const char c){
+	return ((int) c >= table_size+32)? 0 : (int)c-32;
+}
+
+inline std::vector<uint8_t> to_bytes(const char c){
+	const int int_c = get_code(c);
+	std::vector<uint8_t> bytes;
+	bytes.assign(std::begin(raw_table[int_c]), std::end(raw_table[int_c]));
+	return bytes;
+}
+
+inline std::vector<bool> to_bits(const char c){
+	const int int_c = get_code(c);
+	std::vector<bool> bits;
+	bits.assign(image_table[int_c], image_table[int_c]+char_size);
+	return bits;
+}
+
+inline sptr<bit_image> to_bit_img(char c){
+	const auto bits = to_bits(c);
+	return std::make_shared<bit_image>(char_width, char_height, bits);
+}
+
+inline uint get_char_width(const std::string &text){
 	std::string temp = text;
 	size_t text_w = 0;
 	size_t pos = temp.find_first_of('\n');
@@ -224,36 +256,29 @@ inline unsigned int get_char_width(const std::string &text){
 	return text_w;
 }
 
-inline unsigned int get_char_height(const std::string &text){
-	unsigned int count=std::count(text.begin(), text.end(),'\n');
+inline uint get_char_height(const std::string &text){
+	uint count=std::count(text.begin(), text.end(),'\n');
 	if(count==0){
 		count++;
 	}
 	return count;
 }
 
-inline unsigned int get_pixel_width(const char* text){
+inline uint get_pixel_width(const std::string &text){
 	return get_char_width(text)*char_width;
 }
 
-inline unsigned int get_pixel_height(const char* text){
+inline uint get_pixel_height(const std::string &text){
 	return get_char_height(text)*char_height;
 }
 
-inline unsigned int get_pixel_width(const std::string &text){
-	return get_char_width(text)*char_width;
-}
+inline void _correspond(sptr<image> dst_img, sptr<image> src_img){
+	const uint w = dst_img->get_w(),
+		h = dst_img->get_h();
 
-inline unsigned int get_pixel_height(const std::string &text){
-	return get_char_height(text)*char_height;
-}
-
-inline void _correspond(image* dst_img, image* src_img){
-	const unsigned int w = dst_img->get_w(),
-			h = dst_img->get_h();
-	for(unsigned int i=0; i<w; i++){
-		for(unsigned int j=0; j<h; j++){
-			const bool pixel = src_img->get_pixel(i,j);
+	for(uint i=0; i<w; i++){
+		for(uint j=0; j<h; j++){
+			bool pixel = src_img->get_pixel(i,j);
 			if(pixel){
 				dst_img->set_pixel(i,j,pixel);
 			}
@@ -261,49 +286,63 @@ inline void _correspond(image* dst_img, image* src_img){
 	}
 }
 
-inline const byte_image* char_to_byte_img(char c){
-	const int int_c = ((int)c>=table_size)?0:(int)c;
-	return new byte_image(char_width,char_height,raw_table[int_c]);
+inline sptr<byte_image> to_byte_img(char c){
+	const auto bytes = to_bytes(c);
+	return std::make_shared<byte_image>(char_width, char_height, bytes);
 }
 
-inline byte_image* bit_img_to_byte_img(bit_image *img){
-	byte_image* result = new byte_image(img->get_w(),img->get_h());
-	_correspond(result,img);
+inline sptr<byte_image> to_byte_img(sptr<image> img){
+	auto result = std::make_shared<byte_image>(img->get_w(),img->get_h());
+	_correspond(std::static_pointer_cast<image>(result), img);
 	return result;
 }
 
-inline byte_image* bit_img_to_byte_img(const sptr<bit_image> &img){
-	return bit_img_to_byte_img(img.get());
-}
-
-inline byte_image* text_to_byte_img(const unsigned int char_w,
-	const unsigned int char_h,
-	const char *c)
-{
-	const size_t len = char_w*char_h;
-	char *temp_img = new char[len*char_width]{0x00};
-	for(size_t i=0; i<len; i++){
-		const int int_c = ((int)c[i]>=table_size)?0:(int)c[i];
-		memcpy(&temp_img[i*char_width],
-				&raw_table[int_c],
-				char_width);
+/*
+inline sptr<byte_image> to_byte_img(const std::string &text){
+	std::istringstream is(text);
+	std::string part;
+	std::vector<std::string> strings;
+	strings.reserve(std::count(text.begin(), text.end(), '\n'));
+	while (getline(is, part, '\n')){
+		strings.emplace_back(part);
 	}
-	byte_image* img = new byte_image(char_w*char_width,
-		char_h*char_height,
-		temp_img);
-	delete[] temp_img;
-	return img;
-}
 
+	int w=0, h=0;
+	h = std::count(text.begin(), text.end(), '\n');
+	for(const auto &str:strings){
+		std::istringstream is(str);
+		std::string part;
+		std::vector<std::string> strings;
+		strings.reserve(std::count(text.begin(), text.end(), '\r'));
+		while (getline(is, part, '\n')){
+			strings.emplace_back(part);
+		}
+		const auto rcount = std::count(str.begin(), str.end(), '\r');
+		const auto tcount = std::count(str.begin(), str.end(), '\t');
+	}
+
+	int x=0, y=0;
+	for(const auto &str:strings){
+		for(const auto &c:part){
+			if(c == '\t'){
+				x += 4 * 6;
+			}else if(c == '\r'){
+				x = 0;
+			}
+			const auto bytes = to_bytes(c);
+		}
+	}
+}*/
+
+/*
 inline byte_image* text_to_byte_img(const std::string &text){
 	return text_to_byte_img(get_char_width(text),
 		get_char_height(text),
 		text.c_str());
-}
+}*/
 
-inline bit_image* text_to_bit_img(const unsigned int char_w,
-		const unsigned int char_h,
-		const char *c)
+/*
+inline bit_image* text_to_bit_img(const uint char_w, const uint char_h, const char *c)
 {
 	const size_t len = char_w*char_h;
 	bool* temp_img = new bool[len*char_size];
@@ -321,19 +360,19 @@ inline bit_image* text_to_bit_img(const unsigned int char_w,
 		char_h*char_height,temp_img);
 	delete[] temp_img;
 	return img;
-}
+}*/
 
+/*
 inline bit_image* text_to_bit_img(const std::string &text){
 	return text_to_bit_img(get_char_width(text),
 		get_char_height(text),
 		text.c_str());
-}
+}*/
 
-inline bit_image* byte_img_to_bit_img(byte_image* img){
-	bit_image* result = new bit_image(img->get_w(),img->get_h());
+inline sptr<bit_image> to_bit_img(sptr<image> img){
+	auto result = std::make_shared<bit_image>(img->get_w(),img->get_h());
 	_correspond(result,img);
 	return result;
 }
 
 }
-#endif // BINFONT_H

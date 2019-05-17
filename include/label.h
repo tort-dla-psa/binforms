@@ -9,7 +9,6 @@ class label: public element, public imovable {
 public:
 	label();
 	label(const std::string &text);
-	label(const char *text);
 	void set_text(const std::string &text);
 	std::string get_text()const;
 	void move(int x, int y)override;

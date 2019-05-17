@@ -25,8 +25,11 @@ void binform::update(){
 	for(auto &l:layers){
 		//if(l->get_changed()){
 		l->update();
-		const sptr<bit_image> l_img = l->get_image();
-		dr.draw_image(0, 0, l_img, this->img);
+		const auto elements = l->get_elements();
+		for(const auto &el:elements){
+			dr.draw_image(el->get_x(), 
+				el->get_y(), el->get_image(), this->img);
+		}
 		//el->set_changed(false);
 		//}
 	}

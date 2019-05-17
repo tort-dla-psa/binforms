@@ -4,35 +4,43 @@
 #define button_def_text "btn"
 
 button::button()
-	:button (std::string(button_def_text))
+	:button(std::string(button_def_text))
 {}
-button::button(const unsigned int w, const unsigned int h)
-	:button (w,h, std::string(button_def_text))
+
+button::button(const uint w, const uint h)
+	:button(w,h, std::string(button_def_text))
 {}
-button::button(const unsigned int w, const unsigned int h, const label &lbl)
-	:button (w,h,lbl.get_text())
+
+button::button(const uint w, const uint h, const label &lbl)
+	:button(w,h,lbl.get_text())
 {}
+
 button::button(const label &lbl)
 	:button(lbl.get_text())
 {}
-button::button(const unsigned int w, const unsigned int h, const sptr<label> &lbl)
-	:button (w,h,lbl->get_text())
+
+button::button(const uint w, const uint h, const sptr<label> &lbl)
+	:button(w,h,lbl->get_text())
 {}
+
 button::button(const sptr<label> &lbl)
 	:button(lbl->get_text())
 {}
-button::button(const unsigned int w, const unsigned int h, const std::string &text)
+
+button::button(const uint w, const uint h, const std::string &text)
 	:element (w,h),imovable (),iresizable ()
 {
 	drwr = std::unique_ptr<drawer>(new drawer());
 	set_label(text);
 	update();
 }
+
 button::button(const std::string &text)
 	:button(binfont::get_pixel_width(text),
 			binfont::get_pixel_height(text),
 			text)
 {}
+
 button::~button(){};
 
 void button::set_label(const std::string &text){
@@ -40,6 +48,7 @@ void button::set_label(const std::string &text){
 	resize(img->get_w(),img->get_h());
 	//set_changed(true);
 }
+
 void button::set_label(const sptr<label> &lbl){
 	set_label(lbl->get_text());
 }
@@ -49,10 +58,11 @@ void button::move(int x, int y) {
 	this->y = y;
 	//set_changed(true);
 }
-void button::resize(const unsigned int w, const unsigned int h) {
+
+void button::resize(const uint w, const uint h) {
 	img = std::make_shared<bit_image>(w,h);
 	const std::string txt = lbl->get_text();
-	const unsigned int text_w = binfont::get_pixel_width(txt),
+	const uint text_w = binfont::get_pixel_width(txt),
 			text_h = binfont::get_pixel_height(txt);
 
 	const int x = (text_w < w)? (w - text_w)/2 : 0,
@@ -62,9 +72,9 @@ void button::resize(const unsigned int w, const unsigned int h) {
 }
 
 void button::update(){
-	const unsigned int w = get_w();
-	const unsigned int h = get_h();
+	const uint w = get_w();
+	const uint h = get_h();
 	const sptr<bit_image> img = lbl->get_image();
 	drwr->draw_image(lbl->get_x(), lbl->get_y(), img, this->img);
-	drwr->draw_rect(0, 0, w-1, h-1, this->img);
+	drwr->draw_rect(0, 0, w-1, h-1, graphics::color::white, this->img);
 }

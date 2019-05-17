@@ -1,24 +1,20 @@
 #include "label.h"
 #include "binfont.h"
+#include "graphics.h"
 
 #define label_def_txt "label"
 
-label::label()
-	:label(label_def_txt)
+label::label():label(label_def_txt)
 {}
 
 label::label(const std::string &text)
 	:element (binfont::get_pixel_width(text),
-			  binfont::get_pixel_height(text)),
+	binfont::get_pixel_height(text)),
 	  text(text)
 {
-	bit_image* temp = binfont::text_to_bit_img(text);
-	img = std::shared_ptr<bit_image>(temp);
+	graphics::drawer d;
+	d.draw_text(0,0, text, img);
 }
-
-label::label(const char *text)
-	:label(std::string(text))
-{}
 
 void label::set_text(const std::string &text){
 	this->text = text;
@@ -36,6 +32,6 @@ void label::move(int x, int y){
 }
 
 void label::update(){
-	bit_image* temp = binfont::text_to_bit_img(text);
-	img = std::shared_ptr<bit_image>(temp);
+	graphics::drawer d;
+	d.draw_text(0,0, text, img);
 }

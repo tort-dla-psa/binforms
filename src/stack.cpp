@@ -82,8 +82,7 @@ void v_stack::update_size(){
 		new_h += el->get_h();
 		new_w = std::max(new_w, el->get_w());
 	}
-	this->img->resize(new_w, new_h);
-	drwr->fill_image(false, this->img);
+	this->img = std::make_shared<bit_image>(new_w, new_h);
 //	set_changed(true);
 }
 
@@ -137,8 +136,7 @@ void h_stack::update_size(){
 		new_h = std::max(new_h, el->get_h());
 		new_w += el->get_w();
 	}
-	this->img->resize(new_w, new_h);
-	drwr->fill_image(false, this->img);
+	this->img = std::make_shared<bit_image>(new_w, new_h);
 	//set_changed(true);
 }
 

@@ -7,30 +7,21 @@
 #include "graphics.h"
 
 using namespace graphics;
+using uint = unsigned int;
 
-class button: public element,
-		public iresizable,
-		public imovable
-{
+class button: public element, public iresizable, public imovable {
 protected:
 	uptr<drawer> drwr;
 	sptr<label> lbl;
 public:
 	button();
-	button(const unsigned int w,
-		   const unsigned int h);
+	button(const uint w, const uint h);
 	button(const label &lbl);
-	button(const unsigned int w,
-		   const unsigned int h,
-		   const label &lbl);
+	button(const uint w, const uint h, const label &lbl);
 	button(const sptr<label> &lbl);
-	button(const unsigned int w,
-		   const unsigned int h,
-		   const sptr<label> &lbl);
+	button(const uint w, const uint h, const sptr<label> &lbl);
 	button(const std::string &text);
-	button(const unsigned int w,
-		   const unsigned int h,
-		   const std::string &text);
+	button(const uint w, const uint h, const std::string &text);
 	virtual ~button();
 
 	virtual void set_label(const std::string &text);
@@ -38,7 +29,7 @@ public:
 	sptr<label> get_label()const;
 
 	virtual void move(int x, int y)override;
-	virtual void resize(const unsigned int w, const unsigned int h)override;
+	virtual void resize(const uint w, const uint h)override;
 
 	virtual void update()override;
 };
