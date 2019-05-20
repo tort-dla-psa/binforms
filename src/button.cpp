@@ -36,9 +36,9 @@ button::button(const uint w, const uint h, const std::string &text)
 }
 
 button::button(const std::string &text)
-	:button(binfont::get_pixel_width(text),
-			binfont::get_pixel_height(text),
-			text)
+	:button(binfont::get_pixel_width(text)+4,
+		binfont::get_pixel_height(text)+4,
+		text)
 {}
 
 button::~button(){};
