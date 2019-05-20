@@ -1,4 +1,4 @@
-#pragma onve
+#pragma once
 #include "aliases.h"
 #include "event.h"
 
