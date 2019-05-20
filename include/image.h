@@ -18,13 +18,9 @@ public:
 	uint get_h()const;
 };
 
-namespace graphics{
-	class drawer;
-};
-
 class bit_image:public image{
 protected:
-	friend class graphics::drawer;
+	friend class drawer;
 	std::vector<bool> img;
 public:
 	bit_image(const uint w,const uint h);

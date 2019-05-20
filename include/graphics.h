@@ -2,7 +2,6 @@
 #include "image.h"
 
 namespace binforms{
-namespace graphics{
 struct dot{
 	int x,y;
 };
@@ -42,5 +41,4 @@ public:
 
 	void fill_image(enum color, sptr<bit_image> img);
 };
-}
 }

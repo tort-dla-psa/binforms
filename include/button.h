@@ -8,13 +8,10 @@
 namespace binforms{
 using uint = unsigned int;
 
-namespace graphics{
 class drawer;
-}
-
 class button: public element, public iresizable, public imovable {
 protected:
-	uptr<graphics::drawer> drwr;
+	uptr<drawer> drwr;
 	sptr<label> lbl;
 	std::function<void(void)> f;
 public:

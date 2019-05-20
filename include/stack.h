@@ -7,12 +7,11 @@
 using uint = unsigned int;
 
 namespace binforms{
-namespace graphics{
+
 class drawer;
-}
 class stack:public element, public imovable {
 protected:
-	uptr<graphics::drawer> drwr;
+	uptr<drawer> drwr;
 	stack();
 	vec_s<element> elements;
 	virtual void align_items()=0;

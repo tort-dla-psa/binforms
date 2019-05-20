@@ -19,7 +19,7 @@ bool layer::get_changed()const{
 }*/
 
 void layer::update(){
-	graphics::drawer dr;
+	drawer dr;
 	for(auto &el:elements){
 		//if(el->get_changed()){
 		el->update();

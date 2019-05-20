@@ -5,7 +5,6 @@
 #include "tools.h"
 
 using namespace binforms;
-using namespace graphics;
 
 drawer::drawer(){}
 

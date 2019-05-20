@@ -14,7 +14,7 @@ label::label(const std::string &text)
 	binfont::get_pixel_height(text)),
 	  text(text)
 {
-	graphics::drawer d;
+	drawer d;
 	d.draw_text(0,0, text, img);
 }
 
@@ -34,6 +34,6 @@ void label::move(int x, int y){
 }
 
 void label::update(){
-	graphics::drawer d;
+	drawer d;
 	d.draw_text(0,0, text, img);
 }

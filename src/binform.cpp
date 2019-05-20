@@ -23,7 +23,7 @@ void binform::add_layer(const sptr<layer> &l){
 }
 
 void binform::update(){
-	graphics::drawer dr;
+	drawer dr;
 	for(auto &l:layers){
 		//if(l->get_changed()){
 		l->update();

@@ -2,7 +2,6 @@
 #include "graphics.h"
 
 using namespace binforms;
-using namespace graphics;
 
 stack::stack():element(0,0){
 	drwr = uptr<drawer>(new drawer());

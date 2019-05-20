@@ -7,13 +7,11 @@
 using uint = unsigned int;
 
 namespace binforms{
-namespace graphics{
-class drawer;
-}
 class image;
+class drawer;
 class imagebox: public element, public imovable {
 	sptr<image> inner_img;
-	uptr<graphics::drawer> drwr;
+	uptr<drawer> drwr;
 public:
 	imagebox(const uint w, const uint h);
 	imagebox(const uint w, const uint h,

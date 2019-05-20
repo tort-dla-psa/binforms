@@ -2,7 +2,6 @@
 #include "graphics.h"
 
 using namespace binforms;
-using namespace graphics;
 
 imagebox::imagebox(const uint w, const uint h)
 	:element (w,h), imovable ()

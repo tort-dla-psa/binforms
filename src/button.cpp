@@ -5,7 +5,6 @@
 #define button_def_text "btn"
 
 using namespace binforms;
-using namespace graphics;
 
 button::button()
 	:button(std::string(button_def_text))
@@ -84,7 +83,7 @@ void button::update(){
 	const uint h = get_h();
 	const sptr<bit_image> img = lbl->get_image();
 	drwr->draw_image(lbl->get_x(), lbl->get_y(), img, this->img);
-	drwr->draw_rect(0, 0, w-1, h-1, graphics::color::white, this->img);
+	drwr->draw_rect(0, 0, w-1, h-1, color::white, this->img);
 }
 
 void button::bind(std::function<void(void)> f){
