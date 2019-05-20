@@ -59,6 +59,10 @@ void button::move(int x, int y) {
 	//set_changed(true);
 }
 
+sptr<label> button::get_label()const{
+	return lbl;
+}
+
 void button::resize(const uint w, const uint h) {
 	img = std::make_shared<bit_image>(w,h);
 	const std::string txt = lbl->get_text();
