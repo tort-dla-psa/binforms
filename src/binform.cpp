@@ -2,6 +2,8 @@
 #include "element.h"
 #include "graphics.h"
 
+using namespace binforms;
+
 binform::binform(const unsigned int w, const unsigned int h)
 	:element (w,h)
 {}

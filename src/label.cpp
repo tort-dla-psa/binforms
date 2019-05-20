@@ -4,6 +4,8 @@
 
 #define label_def_txt "label"
 
+using namespace binforms;
+
 label::label():label(label_def_txt)
 {}
 

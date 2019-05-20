@@ -3,6 +3,9 @@
 #include "aliases.h"
 #include "element.h"
 #include "iholding.h"
+#include "event.h"
+
+namespace binforms{
 
 using uint = unsigned int;
 
@@ -17,8 +20,5 @@ public:
 	virtual sptr<element> get_element(const uint place)const;
 	virtual sptr<element> get_element(const int x, const int y)const;
 	virtual void add_element(const sptr<element> &el);
-
-	virtual void on_key_press_e(sptr<event> e){}
-	virtual void on_key_tap_e(sptr<event> e){}
-	virtual void on_key_release_e(sptr<event> e){}
 };
+}

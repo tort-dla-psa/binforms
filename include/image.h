@@ -5,6 +5,7 @@
 
 using uint = unsigned int;
 
+namespace binforms{
 class image{
 protected:
 	uint w,h;
@@ -50,3 +51,4 @@ public:
 		const bool pixel)override;
 	void set_pixels(const std::vector<uint8_t> &img);
 };
+}

@@ -1,7 +1,7 @@
-#ifndef GRAPHICS_H
-#define GRAPHICS_H
+#pragma once
 #include "image.h"
 
+namespace binforms{
 namespace graphics{
 struct dot{
 	int x,y;
@@ -43,4 +43,4 @@ public:
 	void fill_image(enum color, sptr<bit_image> img);
 };
 }
-#endif // GRAPHICS_H
+}

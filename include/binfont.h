@@ -13,6 +13,7 @@ using uint = unsigned int;
 template<typename T>
 using sptr = std::shared_ptr<T>;
 
+namespace binforms{
 namespace binfont {
 
 const int char_width = 6,
@@ -295,82 +296,11 @@ inline sptr<byte_image> to_byte_img(sptr<image> img){
 	return result;
 }
 
-/*
-inline sptr<byte_image> to_byte_img(const std::string &text){
-	std::istringstream is(text);
-	std::string part;
-	std::vector<std::string> strings;
-	strings.reserve(std::count(text.begin(), text.end(), '\n'));
-	while (getline(is, part, '\n')){
-		strings.emplace_back(part);
-	}
-
-	int w=0, h=0;
-	h = std::count(text.begin(), text.end(), '\n');
-	for(const auto &str:strings){
-		std::istringstream is(str);
-		std::string part;
-		std::vector<std::string> strings;
-		strings.reserve(std::count(text.begin(), text.end(), '\r'));
-		while (getline(is, part, '\n')){
-			strings.emplace_back(part);
-		}
-		const auto rcount = std::count(str.begin(), str.end(), '\r');
-		const auto tcount = std::count(str.begin(), str.end(), '\t');
-	}
-
-	int x=0, y=0;
-	for(const auto &str:strings){
-		for(const auto &c:part){
-			if(c == '\t'){
-				x += 4 * 6;
-			}else if(c == '\r'){
-				x = 0;
-			}
-			const auto bytes = to_bytes(c);
-		}
-	}
-}*/
-
-/*
-inline byte_image* text_to_byte_img(const std::string &text){
-	return text_to_byte_img(get_char_width(text),
-		get_char_height(text),
-		text.c_str());
-}*/
-
-/*
-inline bit_image* text_to_bit_img(const uint char_w, const uint char_h, const char *c)
-{
-	const size_t len = char_w*char_h;
-	bool* temp_img = new bool[len*char_size];
-	for(size_t i=0; i<len; i++){
-		const int temp = (int)c[i];
-		const int int_c = (temp < table_size+32)?temp:0;
-		const bool *char_img = image_table[int_c-32];
-		for(size_t j=0; j<char_height; j++){
-			memcpy(&temp_img[i*char_width+j*len*char_width],
-					&char_img[j*char_width],
-					char_width);
-		}
-	}
-	bit_image* img = new bit_image(char_w*char_width,
-		char_h*char_height,temp_img);
-	delete[] temp_img;
-	return img;
-}*/
-
-/*
-inline bit_image* text_to_bit_img(const std::string &text){
-	return text_to_bit_img(get_char_width(text),
-		get_char_height(text),
-		text.c_str());
-}*/
-
 inline sptr<bit_image> to_bit_img(sptr<image> img){
 	auto result = std::make_shared<bit_image>(img->get_w(),img->get_h());
 	_correspond(result,img);
 	return result;
 }
 
+}
 }

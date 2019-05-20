@@ -1,7 +1,11 @@
 #include "button.h"
 #include "binfont.h"
+#include "graphics.h"
 
 #define button_def_text "btn"
+
+using namespace binforms;
+using namespace graphics;
 
 button::button()
 	:button(std::string(button_def_text))

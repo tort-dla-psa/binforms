@@ -2,15 +2,17 @@
 
 #include "element.h"
 #include "imovable.h"
-#include "graphics.h"
 #include "aliases.h"
 
-using namespace graphics;
 using uint = unsigned int;
 
+namespace binforms{
+namespace graphics{
+class drawer;
+}
 class stack:public element, public imovable {
 protected:
-	uptr<drawer> drwr;
+	uptr<graphics::drawer> drwr;
 	stack();
 	vec_s<element> elements;
 	virtual void align_items()=0;
@@ -50,3 +52,4 @@ public:
 	void set_elements(const vec_s<element> &elements)override;
 	void set_element(const uint place, const sptr<element> &el)override;
 };
+}

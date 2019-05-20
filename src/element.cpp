@@ -1,6 +1,8 @@
 #include "element.h"
 #include "image.h"
 
+using namespace binforms;
+
 element::element(const unsigned int w, const unsigned int h)
 	:img(new bit_image(w,h))
 {}

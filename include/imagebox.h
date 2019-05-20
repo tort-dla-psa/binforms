@@ -1,16 +1,19 @@
 #pragma once
 
 #include "element.h"
-#include "graphics.h"
 #include "imovable.h"
 #include "aliases.h"
 
-using namespace graphics;
 using uint = unsigned int;
 
+namespace binforms{
+namespace graphics{
+class drawer;
+}
+class image;
 class imagebox: public element, public imovable {
 	sptr<image> inner_img;
-	uptr<drawer> drwr;
+	uptr<graphics::drawer> drwr;
 public:
 	imagebox(const uint w, const uint h);
 	imagebox(const uint w, const uint h,
@@ -21,3 +24,4 @@ public:
 	virtual void update()override;
 	virtual void move(int x, int y)override;
 };
+}

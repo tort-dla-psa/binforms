@@ -1,6 +1,8 @@
 #include <algorithm>
 #include "image.h"
 
+using namespace binforms;
+
 image::image(const uint w, const uint h)
 	:w(w),h(h)
 {}

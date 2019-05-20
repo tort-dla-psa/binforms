@@ -5,6 +5,8 @@
 #include "element.h"
 #include "iholding.h"
 
+namespace binforms{
+
 using uint = unsigned int;
 
 enum class BINFORM_EVENTS{
@@ -41,3 +43,4 @@ public:
 	//add element to layer
 	virtual void add_element(const sptr<element> &el, const uint layer);
 };
+}

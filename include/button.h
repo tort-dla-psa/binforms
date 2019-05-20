@@ -1,18 +1,20 @@
-#ifndef BUTTON_H
-#define BUTTON_H
+#pragma once
 #include <functional>
 #include "iresizable.h"
 #include "aliases.h"
 #include "label.h"
 #include "element.h"
-#include "graphics.h"
 
-using namespace graphics;
+namespace binforms{
 using uint = unsigned int;
+
+namespace graphics{
+class drawer;
+}
 
 class button: public element, public iresizable, public imovable {
 protected:
-	uptr<drawer> drwr;
+	uptr<graphics::drawer> drwr;
 	sptr<label> lbl;
 	std::function<void(void)> f;
 public:
@@ -39,5 +41,4 @@ public:
 		f();
 	}
 };
-
-#endif // BUTTON_H
+}

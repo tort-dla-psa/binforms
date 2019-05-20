@@ -2,6 +2,8 @@
 #include "element.h"
 #include "graphics.h"
 
+using namespace binforms;
+
 layer::layer(const uint w, const uint h)
 	:element (w,h)
 {}

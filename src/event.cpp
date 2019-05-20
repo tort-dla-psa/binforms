@@ -1,4 +1,5 @@
 #include "event.h"
+using namespace binforms;
 
 event::event(int x, int y):
 	x(x), y(y)

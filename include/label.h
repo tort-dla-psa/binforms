@@ -1,8 +1,9 @@
-#ifndef LABEL_H
-#define LABEL_H
+#pragma once
 #include <string>
 #include "element.h"
 #include "imovable.h"
+
+namespace binforms{
 
 class label: public element, public imovable {
 	std::string text;
@@ -15,4 +16,4 @@ public:
 	void update()override;
 };
 
-#endif // LABEL_H
+}

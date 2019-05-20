@@ -4,6 +4,7 @@
 
 using uint = unsigned int;
 
+namespace binforms{
 class bit_image;
 
 class element{
@@ -34,3 +35,4 @@ public:
 	virtual void on_swipe_up_e(sptr<event> e){}
 	virtual void on_swipe_down_e(sptr<event> e){}
 };
+}
