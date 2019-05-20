@@ -1,5 +1,4 @@
-#ifndef ELEMENT_H
-#define ELEMENT_H
+#pragma onve
 #include "aliases.h"
 #include "event.h"
 
@@ -35,5 +34,3 @@ public:
 	virtual void on_swipe_up_e(sptr<event> e){}
 	virtual void on_swipe_down_e(sptr<event> e){}
 };
-
-#endif // ELEMENT_H

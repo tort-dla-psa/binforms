@@ -1,6 +1,4 @@
-#ifndef event_h
-#define event_h
-
+#pragma once
 
 class event{
 	const int x,y;
@@ -9,4 +7,3 @@ public:
 	int get_x()const;
 	int get_y()const;
 };
-#endif
