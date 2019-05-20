@@ -7,6 +7,18 @@
 
 using uint = unsigned int;
 
+enum class BINFORM_EVENTS{
+	press,
+	release,
+	tap,
+	focus_enter,
+	focus_leave,
+	swipe_left,
+	swipe_right,
+	swipe_up,
+	swipe_down,
+};
+
 class binform:public element{
 protected:
 	vec_s<layer> layers;
@@ -28,8 +40,4 @@ public:
 	virtual sptr<element> get_element(const int x, const int y)const;
 	//add element to layer
 	virtual void add_element(const sptr<element> &el, const uint layer);
-
-	virtual void on_key_press_e(sptr<event> e){}
-	virtual void on_key_tap_e(sptr<event> e){}
-	virtual void on_key_release_e(sptr<event> e){}
 };
