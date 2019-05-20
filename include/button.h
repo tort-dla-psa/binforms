@@ -1,5 +1,6 @@
 #ifndef BUTTON_H
 #define BUTTON_H
+#include <functional>
 #include "iresizable.h"
 #include "aliases.h"
 #include "label.h"
@@ -13,6 +14,7 @@ class button: public element, public iresizable, public imovable {
 protected:
 	uptr<drawer> drwr;
 	sptr<label> lbl;
+	std::function<void(void)> f;
 public:
 	button();
 	button(const uint w, const uint h);
@@ -32,6 +34,10 @@ public:
 	virtual void resize(const uint w, const uint h)override;
 
 	virtual void update()override;
+	void bind(std::function<void(void)> f);
+	void on_press_e(sptr<event> e) override{
+		f();
+	}
 };
 
 #endif // BUTTON_H

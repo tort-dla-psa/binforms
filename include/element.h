@@ -34,6 +34,9 @@ public:
 	virtual void on_swipe_right_e(sptr<event> e){}
 	virtual void on_swipe_up_e(sptr<event> e){}
 	virtual void on_swipe_down_e(sptr<event> e){}
+	virtual void on_create_e(sptr<event> e){}
+	virtual void on_delete_e(sptr<event> e){}
+	virtual void on_move_e(sptr<event> e){}
 };
 
 #endif // ELEMENT_H

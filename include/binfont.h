@@ -279,9 +279,7 @@ inline void _correspond(sptr<image> dst_img, sptr<image> src_img){
 	for(uint i=0; i<w; i++){
 		for(uint j=0; j<h; j++){
 			bool pixel = src_img->get_pixel(i,j);
-			if(pixel){
-				dst_img->set_pixel(i,j,pixel);
-			}
+			dst_img->set_pixel(i,j,pixel);
 		}
 	}
 }
