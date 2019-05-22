@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 #include "aliases.h"
 
 using uint = unsigned int;
@@ -14,6 +15,7 @@ public:
 	virtual ~image();
 	virtual bool get_pixel(const uint x,const uint y)const=0;
 	virtual void set_pixel(const uint x,const uint y, const bool pixel)=0;
+	virtual std::string serialize()const=0;
 	uint get_w()const;
 	uint get_h()const;
 };
@@ -29,9 +31,9 @@ public:
 	~bit_image();
 	bool get_pixel(const uint x,const uint y)const override;
 	std::vector<bool> get_pixels()const;
-	void set_pixel(const uint x,const uint y,
-		const bool pixel)override;
+	void set_pixel(const uint x,const uint y, const bool pixel)override;
 	void set_pixels(const std::vector<bool> &img);
+	std::string serialize()const override;
 };
 
 class byte_image:public image{
@@ -43,8 +45,8 @@ public:
 	~byte_image();
 	bool get_pixel(const uint x,const uint y)const override;
 	std::vector<uint8_t> get_pixels()const;
-	void set_pixel(const uint x,const uint y,
-		const bool pixel)override;
+	void set_pixel(const uint x,const uint y, const bool pixel)override;
 	void set_pixels(const std::vector<uint8_t> &img);
+	std::string serialize()const override;
 };
 }

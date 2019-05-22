@@ -52,6 +52,21 @@ void bit_image::set_pixels(const std::vector<bool> &img){
 	this->img = std::move(img);
 }
 
+std::string bit_image::serialize()const{
+	std::string data="";
+	data.reserve(w*h);
+	for(int i=0; i<h; i++){
+		std::string line="";
+		line.reserve(w);
+		for(int j=0; j<w; j++){
+			const char pixel = img[i*w+j]?'1':'0';
+			line += std::move(pixel);
+		}
+		data += line;
+	}
+	return data;
+}
+
 byte_image::byte_image(const uint w, const uint h)
 	:image(w,h)
 {
@@ -94,4 +109,26 @@ void byte_image::set_pixels(const std::vector<uint8_t> &img){
 		throw std::out_of_range("wrong image size");
 	}
 	this->img = std::move(img);
+}
+
+inline std::string serialize(const uint8_t byte){
+	const std::string arr = "0123456789ABCDEF";
+	std::string data = "00";
+	data[0] = arr[(byte>>4)&15];
+	data[1] = arr[byte&15];
+	return data;
+}
+
+std::string byte_image::serialize()const{
+	std::string data="";
+	data.reserve(w*h/8);
+	for(int i=0; i<h/8; i++){
+		std::string line="";
+		line.reserve(w);
+		for(int j=0; j<w; j++){
+			line += ::serialize(img[j+i*w]);
+		}
+		data += line;
+	}
+	return data;
 }
