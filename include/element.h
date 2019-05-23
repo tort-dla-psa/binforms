@@ -25,14 +25,14 @@ public:
 	virtual int get_x();
 	virtual int get_y();
 
-	virtual void on_press_e(sptr<event> e){}
-	virtual void on_tap_e(sptr<event> e){}
-	virtual void on_release_e(sptr<event> e){}
-	virtual void on_focus_enter_e(sptr<event> e){}
-	virtual void on_focus_leave_e(sptr<event> e){}
-	virtual void on_swipe_left_e(sptr<event> e){}
-	virtual void on_swipe_right_e(sptr<event> e){}
-	virtual void on_swipe_up_e(sptr<event> e){}
-	virtual void on_swipe_down_e(sptr<event> e){}
+	virtual void on_press_e(sptr<event> e);
+	virtual void on_tap_e(sptr<event> e);
+	virtual void on_release_e(sptr<event> e);
+	virtual void on_focus_enter_e(sptr<event> e);
+	virtual void on_focus_leave_e(sptr<event> e);
+	virtual void on_swipe_left_e(sptr<event> e);
+	virtual void on_swipe_right_e(sptr<event> e);
+	virtual void on_swipe_up_e(sptr<event> e);
+	virtual void on_swipe_down_e(sptr<event> e);
 };
 }

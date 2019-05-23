@@ -32,3 +32,12 @@ int element::get_y(){
 	return y;
 }
 
+void element::on_press_e(sptr<event> e){}
+void element::on_tap_e(sptr<event> e){}
+void element::on_release_e(sptr<event> e){}
+void element::on_focus_enter_e(sptr<event> e){}
+void element::on_focus_leave_e(sptr<event> e){}
+void element::on_swipe_left_e(sptr<event> e){}
+void element::on_swipe_right_e(sptr<event> e){}
+void element::on_swipe_up_e(sptr<event> e){}
+void element::on_swipe_down_e(sptr<event> e){}
