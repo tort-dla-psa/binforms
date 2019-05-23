@@ -89,3 +89,7 @@ void button::update(){
 void button::bind(std::function<void(void)> f){
 	this->f = f;
 }
+
+void button::on_press_e(sptr<event> e){
+	f();
+}

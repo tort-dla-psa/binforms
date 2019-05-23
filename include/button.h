@@ -34,8 +34,6 @@ public:
 
 	virtual void update()override;
 	void bind(std::function<void(void)> f);
-	void on_press_e(sptr<event> e) override{
-		f();
-	}
+	void on_press_e(sptr<event> e) override;
 };
 }
