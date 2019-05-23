@@ -86,7 +86,7 @@ void button::update(){
 	drwr->draw_rect(0, 0, w-1, h-1, color::white, this->img);
 }
 
-void button::bind(std::function<void(void)> f){
+void button::bind(std::function<void()> f){
 	this->f = f;
 }
 

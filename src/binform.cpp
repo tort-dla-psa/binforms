@@ -69,7 +69,13 @@ vec_s<element> binform::get_elements(const int x, const int y)const{
 }
 
 sptr<element> binform::get_element(const int x, const int y)const{
-	return layers[0]->get_element(x,y);
+	for(const auto &l:layers){
+		const auto el = l->get_element(x,y);
+		if(el){
+			return el;
+		}
+	}
+	return nullptr;
 }
 
 void binform::add_element(const sptr<element> &el, const uint layer){
