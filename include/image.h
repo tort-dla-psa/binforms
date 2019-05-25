@@ -2,19 +2,17 @@
 
 #include <vector>
 #include <string>
-#include "aliases.h"
-
-using uint = unsigned int;
 
 namespace binforms{
 class image{
 protected:
 	uint w,h;
 public:
-	image(const uint w,const uint h);
+	image(unsigned int w,unsigned int h);
 	virtual ~image();
-	virtual bool get_pixel(const uint x,const uint y)const=0;
-	virtual void set_pixel(const uint x,const uint y, const bool pixel)=0;
+
+	virtual bool get_pixel(unsigned int x,unsigned int y)const=0;
+	virtual void set_pixel(unsigned int x,unsigned int y, const bool pixel)=0;
 	virtual std::string serialize()const=0;
 	uint get_w()const;
 	uint get_h()const;
@@ -25,13 +23,14 @@ protected:
 	friend class drawer;
 	std::vector<bool> img;
 public:
-	bit_image(const uint w,const uint h);
-	bit_image(const uint w,const uint h,
+	bit_image(unsigned int w,unsigned int h);
+	bit_image(unsigned int w,unsigned int h,
 		const std::vector<bool> &img);
 	~bit_image();
-	bool get_pixel(const uint x,const uint y)const override;
+
+	bool get_pixel(unsigned int x,unsigned int y)const override;
 	std::vector<bool> get_pixels()const;
-	void set_pixel(const uint x,const uint y, const bool pixel)override;
+	void set_pixel(unsigned int x,unsigned int y, const bool pixel)override;
 	void set_pixels(const std::vector<bool> &img);
 	std::string serialize()const override;
 };
@@ -39,13 +38,14 @@ public:
 class byte_image:public image{
 	std::vector<uint8_t> img;
 public:
-	byte_image(const uint w,const uint h);
-	byte_image(const uint w,const uint h,
+	byte_image(unsigned int w,unsigned int h);
+	byte_image(unsigned int w,unsigned int h,
 		const std::vector<uint8_t> &img);
 	~byte_image();
-	bool get_pixel(const uint x,const uint y)const override;
+
+	bool get_pixel(unsigned int x,unsigned int y)const override;
 	std::vector<uint8_t> get_pixels()const;
-	void set_pixel(const uint x,const uint y, const bool pixel)override;
+	void set_pixel(unsigned int x,unsigned int y, const bool pixel)override;
 	void set_pixels(const std::vector<uint8_t> &img);
 	std::string serialize()const override;
 };

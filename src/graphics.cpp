@@ -8,13 +8,16 @@ using namespace binforms;
 
 drawer::drawer(){}
 
-void drawer::check_ptr(sptr<bit_image> img){
+
+void drawer::check_ptr(std::shared_ptr<bit_image> img){
 	if(!img){
 		throw std::runtime_error("drawer: image pointer isn't set");
 	}
 }
 
-void drawer::draw_line(int x1, int y1, int x2, int y2, enum color c, sptr<bit_image> img) {
+void drawer::draw_line(int x1, int y1, int x2, int y2, enum color c,
+		std::shared_ptr<bit_image> img)
+{
 	check_ptr(img);
 
 	int w = img->get_w();
@@ -48,13 +51,15 @@ void drawer::draw_line(int x1, int y1, int x2, int y2, enum color c, sptr<bit_im
 	}
 }
 
-void drawer::draw_line(dot dt1, dot dt2, enum color c, sptr<bit_image> img){
+void drawer::draw_line(dot dt1, dot dt2, enum color c, std::shared_ptr<bit_image> img){
 	check_ptr(img);
 	draw_line(dt1.x, dt1.y, dt2.x, dt2.y, c, img);
 }
 
 
-void drawer::draw_rect(int x1, int y1, int x2, int y2, enum color c, sptr<bit_image> img){
+void drawer::draw_rect(int x1, int y1, int x2, int y2, enum color c,
+		std::shared_ptr<bit_image> img)
+{
 	check_ptr(img);
 	int w = img->get_w();
 	if(x2 < x1){
@@ -79,14 +84,14 @@ void drawer::draw_rect(int x1, int y1, int x2, int y2, enum color c, sptr<bit_im
 	}
 }
 
-void drawer::draw_rect(dot dt1, dot dt2, enum color c, sptr<bit_image> img){
+void drawer::draw_rect(dot dt1, dot dt2, enum color c, std::shared_ptr<bit_image> img){
 	check_ptr(img);
 	draw_rect(dt1.x, dt1.y, dt2.x, dt2.y, c, img);
 }
 
 
 void drawer::draw_rect_filled(int x1, int y1, int x2, int y2, enum color c,
-	sptr<bit_image> img)
+	std::shared_ptr<bit_image> img)
 {
 	check_ptr(img);
 	int w = img->get_w();
@@ -108,22 +113,25 @@ void drawer::draw_rect_filled(int x1, int y1, int x2, int y2, enum color c,
 	}
 }
 
-void drawer::draw_rect_filled(dot dt1, dot dt2, enum color c, sptr<bit_image> img){
+void drawer::draw_rect_filled(dot dt1, dot dt2, enum color c, std::shared_ptr<bit_image> img){
 	check_ptr(img);
 	draw_rect_filled(dt1.x, dt1.y, dt2.x, dt2.y, c, img);
 }
 
-void drawer::draw_ellipse(int x1, int y1, int x2, int y2, enum color c, sptr<bit_image> img){
+void drawer::draw_ellipse(int x1, int y1, int x2, int y2, enum color c,
+		std::shared_ptr<bit_image> img)
+{
 	check_ptr(img);
 	//TODO:make function
 }
 
-void drawer::draw_ellipse(dot dt1, dot dt2, enum color c, sptr<bit_image> img){
+void drawer::draw_ellipse(dot dt1, dot dt2, enum color c, std::shared_ptr<bit_image> img){
 	check_ptr(img);
 	draw_ellipse(dt1.x, dt1.y, dt2.x, dt2.y, c, img);
 }
 
-void drawer::draw_image(int x1, int y1, sptr<bit_image> src, sptr<bit_image> dst){
+void drawer::draw_image(int x1, int y1, std::shared_ptr<bit_image> src,
+		std::shared_ptr<bit_image> dst){
 	check_ptr(src);
 	check_ptr(dst);
 
@@ -164,13 +172,16 @@ void drawer::draw_image(int x1, int y1, sptr<bit_image> src, sptr<bit_image> dst
 	}
 }
 
-void drawer::draw_image(dot dt1, sptr<bit_image> src, sptr<bit_image> dst){
+void drawer::draw_image(dot dt1, std::shared_ptr<bit_image> src,
+		std::shared_ptr<bit_image> dst)
+{
 	check_ptr(src);
 	check_ptr(dst);
 	draw_image(dt1.x, dt1.y, src, dst);
 }
 
-void drawer::draw_text(int x1, int y1, const std::string &txt, sptr<bit_image> img){
+void drawer::draw_text(int x1, int y1, const std::string &txt,
+		std::shared_ptr<bit_image> img){
 	int x=x1, y=y1;
 	for(const char &c:txt){
 		if(c == '\r'){
@@ -193,7 +204,7 @@ void drawer::draw_text(int x1, int y1, const std::string &txt, sptr<bit_image> i
 	}
 }
 
-void drawer::fill_image(enum color c, sptr<bit_image> img){
+void drawer::fill_image(enum color c, std::shared_ptr<bit_image> img){
 	check_ptr(img);
 	bool real_color;
 	if(c == color::white){

@@ -1,13 +1,8 @@
 #pragma once
-
-#include "layer.h"
-#include "aliases.h"
+#include "container.h"
 #include "element.h"
-#include "iholding.h"
 
 namespace binforms{
-
-using uint = unsigned int;
 
 enum class BINFORM_EVENTS{
 	press,
@@ -21,26 +16,22 @@ enum class BINFORM_EVENTS{
 	swipe_down,
 };
 
-class binform:public element{
+class binform:public container{
+	void add_element(std::shared_ptr<element> el)override{};
 protected:
-	vec_s<layer> layers;
+	std::vector<std::shared_ptr<container>> layers;
 public:
-	binform(const uint w, const uint h);
-	//bool get_changed()const override;
+	binform(unsigned int w, unsigned int h);
+	virtual ~binform();
+
 	void update()override;
-	//add new layer
-	void add_layer(const sptr<layer> &l);
-	//return all layers
-	virtual vec_s<layer> get_layers()const;
-	//return desired layer
-	virtual sptr<element> get_layer(const uint place)const;
-	//return all elements
-	virtual vec_s<element> get_elements()const;
-	//return all elements at coodrdinates
-	virtual vec_s<element> get_elements(const int x, const int y)const;
-	//return upper element at coodrdinates
-	virtual sptr<element> get_element(const int x, const int y)const;
-	//add element to layer
-	virtual void add_element(const sptr<element> &el, const uint layer);
+	void add_layer(std::shared_ptr<container> l);
+	size_t get_layers_count()const;
+	virtual std::shared_ptr<element> get_layer(unsigned int place)const;
+	virtual std::vector<std::shared_ptr<container>> get_layers()const;
+	virtual std::vector<std::shared_ptr<element>> get_elements()const;
+	virtual std::vector<std::shared_ptr<element>> get_elements(int x,int y)const override;
+	virtual std::shared_ptr<element> get_element(int x, int y)const override;
+	virtual void add_element(std::shared_ptr<element> el, unsigned int layer);
 };
 }

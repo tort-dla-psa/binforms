@@ -1,9 +1,10 @@
 #include <algorithm>
+#include <stdexcept>
 #include "image.h"
 
 using namespace binforms;
 
-image::image(const uint w, const uint h)
+image::image(unsigned int w, unsigned int h)
 	:w(w),h(h)
 {}
 
@@ -18,13 +19,13 @@ uint image::get_h()const{
 }
 
 
-bit_image::bit_image(const uint w, const uint h)
+bit_image::bit_image(unsigned int w, unsigned int h)
 	:image(w,h)
 {
 	img.resize(w*h,false);
 }
 
-bit_image::bit_image(const uint w, const uint h,
+bit_image::bit_image(unsigned int w, unsigned int h,
 	const std::vector<bool> &img)
 	:bit_image(w,h)
 {
@@ -33,7 +34,7 @@ bit_image::bit_image(const uint w, const uint h,
 
 bit_image::~bit_image(){}
 
-bool bit_image::get_pixel(const uint x, const uint y)const{
+bool bit_image::get_pixel(unsigned int x, unsigned int y)const{
 	return img[x+y*w];
 }
 
@@ -41,7 +42,7 @@ std::vector<bool> bit_image::get_pixels() const{
 	return img;
 }
 
-void bit_image::set_pixel(const uint x, const uint y, const bool pixel) {
+void bit_image::set_pixel(unsigned int x, unsigned int y, const bool pixel) {
 	this->img[x+y*w] = pixel;
 }
 
@@ -67,15 +68,15 @@ std::string bit_image::serialize()const{
 	return data;
 }
 
-byte_image::byte_image(const uint w, const uint h)
+byte_image::byte_image(unsigned int w, unsigned int h)
 	:image(w,h)
 {
-	const uint size = w*h/sizeof(char);
+	unsigned int size = w*h/sizeof(char);
 	img.reserve(size);
 	std::fill_n(img.begin(),size,0x00);
 }
 
-byte_image::byte_image(const uint w, const uint h,
+byte_image::byte_image(unsigned int w, unsigned int h,
 	const std::vector<uint8_t> &img)
 	:image(w,h)
 {
@@ -84,7 +85,7 @@ byte_image::byte_image(const uint w, const uint h,
 
 byte_image::~byte_image(){}
 
-bool byte_image::get_pixel(const uint x, const uint y)const{
+bool byte_image::get_pixel(unsigned int x, unsigned int y)const{
 	const int selector = 1<<y%8;
 	return img[x+y/8*w]&selector;
 }
@@ -93,10 +94,10 @@ std::vector<uint8_t> byte_image::get_pixels()const{
 	return img;
 }
 
-void byte_image::set_pixel(const uint x, const uint y, const bool pixel){
+void byte_image::set_pixel(unsigned int x, unsigned int y, const bool pixel){
 	//some magic
 	const int selector = 1 << (y % sizeof(uint8_t));
-	const uint coord = x + y/sizeof(uint8_t) * w;
+	unsigned int coord = x + y/sizeof(uint8_t) * w;
 	if(pixel){
 		img[coord] |= selector;
 	}else{
@@ -111,7 +112,7 @@ void byte_image::set_pixels(const std::vector<uint8_t> &img){
 	this->img = std::move(img);
 }
 
-inline std::string serialize(const uint8_t byte){
+inline std::string serialize(uint8_t byte){
 	const std::string arr = "0123456789ABCDEF";
 	std::string data = "00";
 	data[0] = arr[(byte>>4)&15];

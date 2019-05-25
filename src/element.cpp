@@ -3,9 +3,9 @@
 
 using namespace binforms;
 
-element::element(const unsigned int w, const unsigned int h)
-	:img(new bit_image(w,h))
-{}
+element::element(const unsigned int w, const unsigned int h){
+	img = std::make_shared<bit_image>(w,h);
+}
 
 element::~element(){}
 
@@ -22,7 +22,7 @@ unsigned int element::get_w()const{
 unsigned int element::get_h()const{
 	return img->get_h();
 }
-sptr<bit_image> element::get_image(){
+std::shared_ptr<bit_image> element::get_image(){
 	return img;
 }
 int element::get_x(){
@@ -32,12 +32,12 @@ int element::get_y(){
 	return y;
 }
 
-void element::on_press_e(sptr<event> e){}
-void element::on_tap_e(sptr<event> e){}
-void element::on_release_e(sptr<event> e){}
-void element::on_focus_enter_e(sptr<event> e){}
-void element::on_focus_leave_e(sptr<event> e){}
-void element::on_swipe_left_e(sptr<event> e){}
-void element::on_swipe_right_e(sptr<event> e){}
-void element::on_swipe_up_e(sptr<event> e){}
-void element::on_swipe_down_e(sptr<event> e){}
+void element::on_press_e(std::shared_ptr<event> e){}
+void element::on_tap_e(std::shared_ptr<event> e){}
+void element::on_release_e(std::shared_ptr<event> e){}
+void element::on_focus_enter_e(std::shared_ptr<event> e){}
+void element::on_focus_leave_e(std::shared_ptr<event> e){}
+void element::on_swipe_left_e(std::shared_ptr<event> e){}
+void element::on_swipe_right_e(std::shared_ptr<event> e){}
+void element::on_swipe_up_e(std::shared_ptr<event> e){}
+void element::on_swipe_down_e(std::shared_ptr<event> e){}
