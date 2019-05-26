@@ -39,11 +39,11 @@ void stack::move(int x, int y){
 v_stack::v_stack():stack(){}
 
 void v_stack::align_items(){
-	uint prev_h = 0;
+	uint prev_h = y;
 	for(auto &el: elements){
 		auto cast = std::dynamic_pointer_cast<imovable>(el);
 		if(cast)
-			cast->move(0, prev_h);
+			cast->move(x, prev_h);
 		prev_h += el->get_h();
 	}
 //	set_changed(true);
@@ -71,10 +71,8 @@ void v_stack::update_size(){
 }
 
 void v_stack::update(){
-	uint prev_h = 0;
 	for(auto &el:elements){
-		drwr->draw_image(0, prev_h, el->get_image(), this->img);
-		prev_h += el->get_h();
+		drwr->draw_image(el->get_x()-x, el->get_y()-y, el->get_image(), this->img);
 	}
 }
 
@@ -82,11 +80,11 @@ void v_stack::update(){
 h_stack::h_stack():stack(){}
 
 void h_stack::align_items(){
-	uint prev_w = 0;
+	uint prev_w = x;
 	for(auto &el: elements){
 		auto cast = std::dynamic_pointer_cast<imovable>(el);
 		if(cast)
-			cast->move(prev_w, 0);
+			cast->move(prev_w, y);
 		prev_w += el->get_w();
 	}
 }
@@ -113,9 +111,7 @@ void h_stack::update_size(){
 }
 
 void h_stack::update(){
-	uint prev_w = 0;
 	for(auto &el:elements){
-		drwr->draw_image(prev_w, 0, el->get_image(), this->img);
-		prev_w += el->get_w();
+		drwr->draw_image(el->get_x()-x, el->get_y()-y, el->get_image(), this->img);
 	}
 }
