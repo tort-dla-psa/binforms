@@ -79,6 +79,12 @@ void v_stack::update(){
 	}
 }
 
+void v_stack::move(int x, int y){
+	this->x = x;
+	this->y = y;
+	align_items();
+}
+
 
 h_stack::h_stack():stack(){}
 
@@ -121,4 +127,10 @@ void h_stack::update(){
 		drwr->draw_image(el->get_x()-x, el->get_y()-y,
 			el->get_image(), this->img);
 	}
+}
+
+void h_stack::move(int x, int y){
+	this->x = x;
+	this->y = y;
+	align_items();
 }

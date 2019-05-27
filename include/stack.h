@@ -18,7 +18,7 @@ public:
 	std::shared_ptr<element> get_prev_of(std::shared_ptr<element> el)const;
 	virtual void update_size()=0;
 	int get_place(std::shared_ptr<element> el)const;
-	void move(int x, int y)override;
+	virtual void move(int x, int y)=0;
 };
 
 class v_stack:public stack{
@@ -30,6 +30,7 @@ public:
 	void update_size()override;
 	void add_element(std::shared_ptr<element> el)override;
 	void set_elements(const std::vector<std::shared_ptr<element>> &elements)override;
+	void move(int x, int y)override;
 };
 
 class h_stack:public stack{
@@ -41,5 +42,6 @@ public:
 	void update_size()override;
 	void add_element(std::shared_ptr<element> el)override;
 	void set_elements(const std::vector<std::shared_ptr<element>> &elements)override;
+	void move(int x, int y)override;
 };
 }
