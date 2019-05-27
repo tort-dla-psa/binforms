@@ -1,11 +1,6 @@
-#ifndef IRESIZABLE_H
-#define IRESIZABLE_H
-
+#pragma once
 
 class iresizable{
 public:
-	virtual void resize(const unsigned int w,
-						const unsigned int h)=0;
+	virtual void resize(const unsigned int w, const unsigned int h)=0;
 };
-
-#endif // IRESIZABLE_H
