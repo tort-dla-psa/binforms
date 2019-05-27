@@ -72,6 +72,9 @@ void v_stack::update_size(){
 
 void v_stack::update(){
 	for(auto &el:elements){
+		if(std::dynamic_pointer_cast<container>(el)){
+			el->update();
+		}
 		drwr->draw_image(el->get_x()-x, el->get_y()-y, el->get_image(), this->img);
 	}
 }
@@ -112,6 +115,10 @@ void h_stack::update_size(){
 
 void h_stack::update(){
 	for(auto &el:elements){
-		drwr->draw_image(el->get_x()-x, el->get_y()-y, el->get_image(), this->img);
+		if(std::dynamic_pointer_cast<container>(el)){
+			el->update();
+		}
+		drwr->draw_image(el->get_x()-x, el->get_y()-y,
+			el->get_image(), this->img);
 	}
 }
